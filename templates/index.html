@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="text-center my-4">
+            <h1 class="display-5">Election Management System</h1>
+            <p class="lead">Manage voters, candidates, elections, and results seamlessly.</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="voters-tab" data-bs-toggle="tab" data-bs-target="#voters"
+                    type="button" role="tab">Voter Management</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="candidates-tab" data-bs-toggle="tab" data-bs-target="#candidates"
+                    type="button" role="tab">Candidate Management</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="elections-tab" data-bs-toggle="tab" data-bs-target="#elections"
+                    type="button" role="tab">Election Scheduling</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="results-tab" data-bs-toggle="tab" data-bs-target="#results" type="button"
+                    role="tab">Results</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="vote-tab" data-bs-toggle="tab" data-bs-target="#vote" type="button"
+                    role="tab">Cast Vote</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <!-- Voter Management -->
+            <div class="tab-pane fade show active" id="voters" role="tabpanel">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Register a Voter</h5>
+                        <form id="voterForm">
+                            <div class="mb-3">
+                                <label for="voterName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="voterName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="voterCnic" class="form-label">CNIC</label>
+                                <input type="text" class="form-control" id="voterCnic" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="voterDob" class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="voterDob" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="voterAge" class="form-label">Age</label>
+                                <input type="number" class="form-control" id="voterAge" min="18" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Register Voter</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Candidate Management -->
+            <div class="tab-pane fade" id="candidates" role="tabpanel">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Add a Candidate</h5>
+                        <form id="candidateForm">
+                            <div class="mb-3">
+                                <label for="candidateName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="candidateName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="candidateParty" class="form-label">Party</label>
+                                <input type="text" class="form-control" id="candidateParty" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Candidate</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Election Scheduling -->
+            <div class="tab-pane fade" id="elections" role="tabpanel">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Schedule an Election</h5>
+                        <form id="electionForm">
+                            <div class="mb-3">
+                                <label for="electionName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="electionName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="startDate" class="form-label">Start Date</label>
+                                <input type="datetime-local" class="form-control" id="startDate" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="endDate" class="form-label">End Date</label>
+                                <input type="datetime-local" class="form-control" id="endDate" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Schedule Election</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="tab-pane fade" id="results" role="tabpanel">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">View Results</h5>
+                        <div id="electionsList" class="mb-3"></div>
+                        <div id="resultsOutput" class="mt-4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cast Vote -->
+            <div class="tab-pane fade" id="vote" role="tabpanel">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Cast Your Vote</h5>
+                        <form id="voteForm">
+                            <div class="mb-3">
+                                <label for="voteElectionId" class="form-label">Election</label>
+                                <select class="form-control" id="voteElectionId" required></select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="voteCandidateId" class="form-label">Candidate</label>
+                                <select class="form-control" id="voteCandidateId" required></select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Cast Vote</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Redirect to login page if no user is logged in
+            const userRole = sessionStorage.getItem("userRole");
+            if (!userRole) {
+                window.location.href = "/login_page";
+                return;
+            }
+
+            // Handle voter registration
+            document.getElementById("voterForm").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const name = document.getElementById("voterName").value;
+                const cnic = document.getElementById("voterCnic").value;
+                const dob = document.getElementById("voterDob").value;
+                const age = parseInt(document.getElementById("voterAge").value);
+
+                const response = await fetch("/register_voter", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, cnic, dob, age }),
+                });
+
+                const result = await response.json();
+                alert(result.message);
+            });
+
+            // Handle candidate addition
+            document.getElementById("candidateForm").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const name = document.getElementById("candidateName").value;
+                const party = document.getElementById("candidateParty").value;
+
+                const response = await fetch("/add_candidate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, party }),
+                });
+
+                const result = await response.json();
+                alert(result.message);
+            });
+
+            // Handle election scheduling
+            document.getElementById("electionForm").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const name = document.getElementById("electionName").value;
+                const startDate = document.getElementById("startDate").value;
+                const endDate = document.getElementById("endDate").value;
+
+                const response = await fetch("/create_election", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, start_date: startDate, end_date: endDate }),
+                });
+
+                const result = await response.json();
+                alert(result.message);
+            });
+
+            // Handle results retrieval
+            async function loadElections() {
+                const response = await fetch("/available_elections", { method: "GET" });
+                const result = await response.json();
+
+                if (result.success) {
+                    const electionsList = document.getElementById("electionsList");
+                    electionsList.innerHTML = "<h6>Available Elections:</h6>";
+                    result.data.forEach(election => {
+                        const button = document.createElement("button");
+                        button.className = "btn btn-secondary m-1";
+                        button.textContent = election.name;
+                        button.onclick = () => showResults(election.election_id);
+                        electionsList.appendChild(button);
+                    });
+                } else {
+                    alert(result.message);
+                }
+            }
+
+            async function showResults(electionId) {
+                const response = await fetch(`/get_results/${electionId}`, { method: "GET" });
+                const result = await response.json();
+
+                if (result.success) {
+                    const { results, winner } = result.data;
+                    let resultsTable = `
+                        <h6>Results:</h6>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Candidate ID</th>
+                                    <th>Votes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    for (const [candidateId, votes] of Object.entries(results)) {
+                        resultsTable += `
+                            <tr>
+                                <td>${candidateId}</td>
+                                <td>${votes}</td>
+                            </tr>
+                        `;
+                    }
+                    resultsTable += `
+                            </tbody>
+                        </table>
+                        <h6>Winner:</h6>
+                        <p>${winner.name} (${winner.candidate_id}) - ${winner.votes} votes</p>
+                    `;
+                    document.getElementById("resultsOutput").innerHTML = resultsTable;
+                } else {
+                    alert(result.message);
+                }
+            }
+
+            loadElections();
+
+            // Handle vote casting
+            async function loadVoteOptions() {
+                const response = await fetch("/available_elections", { method: "GET" });
+                const result = await response.json();
+
+                if (result.success) {
+                    const electionSelect = document.getElementById("voteElectionId");
+                    result.data.forEach(election => {
+                        const option = document.createElement("option");
+                        option.value = election.election_id;
+                        option.textContent = election.name;
+                        electionSelect.appendChild(option);
+                    });
+                } else {
+                    alert(result.message);
+                }
+
+                const candidateResponse = await fetch("/get_candidates", { method: "GET" });
+                const candidateResult = await candidateResponse.json();
+
+                if (candidateResult.success) {
+                    const candidateSelect = document.getElementById("voteCandidateId");
+                    candidateResult.data.forEach(candidate => {
+                        const option = document.createElement("option");
+                        option.value = candidate.candidate_id;
+                        option.textContent = `${candidate.name} (${candidate.party})`;
+                        candidateSelect.appendChild(option);
+                    });
+                } else {
+                    alert(candidateResult.message);
+                }
+            }
+
+            document.getElementById("voteForm").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const electionId = document.getElementById("voteElectionId").value;
+                const candidateId = document.getElementById("voteCandidateId").value;
+
+                const response = await fetch("/cast_vote", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ election_id: electionId, candidate_id: candidateId }),
+                });
+
+                const result = await response.json();
+                alert(result.message);
+            });
+
+            loadVoteOptions();
+
+            // Show/hide tabs based on user role
+            if (userRole === "voter") {
+                document.getElementById("voters-tab").style.display = "none";
+                document.getElementById("candidates-tab").style.display = "none";
+                document.getElementById("elections-tab").style.display = "none";
+                document.getElementById("results-tab").style.display = "none";
+            } else if (userRole === "admin") {
+                document.getElementById("vote-tab").style.display = "none";
+            }
+        });
+    </script>
+</body>
+
+</html>

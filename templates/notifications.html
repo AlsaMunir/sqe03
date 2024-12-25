@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notifications</title>
+</head>
+<body>
+    <h1>Your Notifications</h1>
+    <ul id="notification-list"></ul>
+
+    <script>
+        fetch('/get_notifications/VOTER001')
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById('notification-list');
+                data.data.forEach(notification => {
+                    const li = document.createElement('li');
+                    li.textContent = `${notification.message} - ${notification.timestamp}`;
+                    list.appendChild(li);
+                });
+            });
+    </script>
+</body>
+</html>
